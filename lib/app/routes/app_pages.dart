@@ -1,7 +1,15 @@
 import 'package:get/get.dart';
 
+import 'package:tw_weather/app/modules/favorite/bindings/favorite_binding.dart';
+import 'package:tw_weather/app/modules/favorite/views/favorite_view.dart';
+import 'package:tw_weather/app/modules/forcast/bindings/forcast_binding.dart';
+import 'package:tw_weather/app/modules/forcast/views/forcast_view.dart';
 import 'package:tw_weather/app/modules/home/bindings/home_binding.dart';
 import 'package:tw_weather/app/modules/home/views/home_view.dart';
+import 'package:tw_weather/app/modules/location/bindings/location_binding.dart';
+import 'package:tw_weather/app/modules/location/views/location_view.dart';
+import 'package:tw_weather/app/modules/search/bindings/search_binding.dart';
+import 'package:tw_weather/app/modules/search/views/search_view.dart';
 import 'package:tw_weather/app/modules/setting/bindings/setting_binding.dart';
 import 'package:tw_weather/app/modules/setting/views/setting_view.dart';
 
@@ -22,6 +30,26 @@ class AppPages {
       name: _Paths.SETTING,
       page: () => SettingView(),
       binding: SettingBinding(),
+    ),
+    GetPage(
+      name: _Paths.LOCATION,
+      page: () => LocationView(),
+      binding: LocationBinding(),
+    ),
+    GetPage(
+      name: _Paths.SEARCH,
+      page: () => SearchView(),
+      binding: SearchBinding(),
+    ),
+    GetPage(
+      name: _Paths.FORCAST,
+      page: () => ForcastView(),
+      binding: ForcastBinding(),
+    ),
+    GetPage(
+      name: _Paths.FAVORITE,
+      page: () => FavoriteView(),
+      binding: FavoriteBinding(),
     ),
   ];
 }

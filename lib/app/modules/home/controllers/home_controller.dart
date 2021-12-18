@@ -1,20 +1,28 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:tw_weather/app/modules/favorite/views/favorite_view.dart';
+import 'package:tw_weather/app/modules/forcast/views/forcast_view.dart';
+import 'package:tw_weather/app/modules/location/views/location_view.dart';
+import 'package:tw_weather/app/modules/search/views/search_view.dart';
+import 'package:tw_weather/app/modules/setting/views/setting_view.dart';
+
+import '../../../constant.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+  final currentIndex = IndexPage.Location.obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  Widget nowView() {
+    switch (currentIndex.value) {
+      case IndexPage.Location:
+        return LocationView();
+      case IndexPage.Forcast:
+        return ForcastView();
+      case IndexPage.Search:
+        return SearchView();
+      case IndexPage.Favorite:
+        return FavoriteView();
+      case IndexPage.Setting:
+        return SettingView();
+    }
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {}
-  void increment() => count.value++;
 }

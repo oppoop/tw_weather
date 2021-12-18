@@ -1,14 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tw_weather/app/constant.dart';
+import 'package:tw_weather/app/modules/home/controllers/home_controller.dart';
 
-class BottomNavBarCurvedFb1 extends StatefulWidget {
-  const BottomNavBarCurvedFb1({Key? key}) : super(key: key);
-
-  @override
-  _BottomNavBarCurvedFb1State createState() => _BottomNavBarCurvedFb1State();
-}
-
-class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
+class BottomNavBar extends StatelessWidget {
+  final controller = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -32,9 +29,10 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
             heightFactor: 0.6,
             child: FloatingActionButton(
                 backgroundColor: primaryColor,
-                child: Icon(Icons.home),
+                child: Icon(Icons.location_on),
                 elevation: 0.1,
-                onPressed: () {}),
+                onPressed: () =>
+                    controller.currentIndex.value = IndexPage.Location),
           ),
           Container(
             height: height,
@@ -42,34 +40,47 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 NavBarIcon(
-                  text: "Home",
-                  icon: Icons.home_outlined,
-                  selected: true,
-                  onPressed: () {},
+                  text: "Forcast",
+                  icon: Icons.folder_open,
+                  selected: controller.currentIndex.value == IndexPage.Forcast
+                      ? true
+                      : false,
+                  onPressed: () =>
+                      controller.currentIndex.value = IndexPage.Forcast,
                   defaultColor: secondaryColor,
                   selectedColor: primaryColor,
                 ),
                 NavBarIcon(
                   text: "Search",
                   icon: Icons.search_outlined,
-                  selected: false,
-                  onPressed: () {},
+                  selected: controller.currentIndex.value == IndexPage.Search
+                      ? true
+                      : false,
+                  onPressed: () =>
+                      controller.currentIndex.value = IndexPage.Search,
                   defaultColor: secondaryColor,
                   selectedColor: primaryColor,
                 ),
                 SizedBox(width: 56),
                 NavBarIcon(
-                    text: "Cart",
-                    icon: Icons.local_grocery_store_outlined,
-                    selected: false,
-                    onPressed: () {},
+                    text: "Favorite",
+                    icon: Icons.favorite_border,
+                    selected:
+                        controller.currentIndex.value == IndexPage.Favorite
+                            ? true
+                            : false,
+                    onPressed: () =>
+                        controller.currentIndex.value = IndexPage.Favorite,
                     defaultColor: secondaryColor,
                     selectedColor: primaryColor),
                 NavBarIcon(
-                  text: "Calendar",
-                  icon: Icons.date_range_outlined,
-                  selected: false,
-                  onPressed: () {},
+                  text: "Settings",
+                  icon: Icons.settings,
+                  selected: controller.currentIndex.value == IndexPage.Setting
+                      ? true
+                      : false,
+                  onPressed: () =>
+                      controller.currentIndex.value = IndexPage.Setting,
                   selectedColor: primaryColor,
                   defaultColor: secondaryColor,
                 )

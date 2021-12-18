@@ -1,5 +1,13 @@
 import 'dart:ui';
 
+enum IndexPage {
+  Location,
+  Forcast,
+  Search,
+  Favorite,
+  Setting,
+}
+
 bool appTheme = true;
 final themeColor = appTheme ? kDarkThemeColor : kBrightThemeColor;
 final CardColor = appTheme ? kDarkCardColor : kBrightCardColor;
