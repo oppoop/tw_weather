@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 class LocationController extends GetxController {
   //TODO: Implement LocationController
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -16,5 +15,4 @@ class LocationController extends GetxController {
 
   @override
   void onClose() {}
-  void increment() => count.value++;
 }

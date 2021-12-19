@@ -29,10 +29,10 @@ class BottomNavBar extends StatelessWidget {
             heightFactor: 0.6,
             child: FloatingActionButton(
                 backgroundColor: primaryColor,
-                child: Icon(Icons.location_on),
+                child: Icon(Icons.home),
                 elevation: 0.1,
                 onPressed: () =>
-                    controller.currentIndex.value = IndexPage.Location),
+                    controller.currentIndex.value = IndexPage.Home),
           ),
           Container(
             height: height,
@@ -41,12 +41,12 @@ class BottomNavBar extends StatelessWidget {
               children: [
                 NavBarIcon(
                   text: "Forcast",
-                  icon: Icons.folder_open,
-                  selected: controller.currentIndex.value == IndexPage.Forcast
+                  icon: Icons.location_on_outlined,
+                  selected: controller.currentIndex.value == IndexPage.Location
                       ? true
                       : false,
                   onPressed: () =>
-                      controller.currentIndex.value = IndexPage.Forcast,
+                      controller.currentIndex.value = IndexPage.Location,
                   defaultColor: secondaryColor,
                   selectedColor: primaryColor,
                 ),

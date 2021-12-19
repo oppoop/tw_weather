@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 enum IndexPage {
+  Home,
   Location,
-  Forcast,
   Search,
   Favorite,
   Setting,
