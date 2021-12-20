@@ -7,15 +7,17 @@ enum IndexPage {
   Setting,
 }
 
-bool appTheme = true;
+bool appTheme = false;
 final themeColor = appTheme ? kDarkThemeColor : kBrightThemeColor;
 final CardColor = appTheme ? kDarkCardColor : kBrightCardColor;
 final selectColor = appTheme ? kDarkSelectColor : kBrightSelectColor;
 final topColor = appTheme ? kDarkTopColor : kBrightTopColor;
 final bottomColor = appTheme ? kDarkBottomColor : kBrightBottomColor;
 final IconColor = appTheme ? kDarkIconColor : kBrightIconColor;
+final cardTextColor = appTheme ? kWhiteColor : kBlackColor;
 
 const kWhiteColor = const Color(0xffffffff);
+const kBlackColor = const Color(0xfff000000);
 
 ///暗色系主題
 const kDarkThemeColor = const Color(0xfff060D26);

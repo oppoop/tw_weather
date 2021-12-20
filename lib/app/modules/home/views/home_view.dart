@@ -1,7 +1,10 @@
+import 'package:decorated_icon/decorated_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simple_shadow/simple_shadow.dart';
 import 'package:tw_weather/app/routes/app_pages.dart';
 import 'package:tw_weather/app/widget/bottom_bar.dart';
+import 'package:tw_weather/utils/common_widget.dart';
 
 import '../../../constant.dart';
 import '../controllers/home_controller.dart';
@@ -32,7 +35,17 @@ class HomeView extends GetView<HomeController> {
     return Container(
       height: 90,
       width: Get.width,
-      color: topColor,
+      decoration: BoxDecoration(
+        color: topColor,
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black26,
+              offset: Offset(0.0, 4.0), //陰影y軸偏移量
+              blurRadius: 5, //陰影模糊程度
+              spreadRadius: 1 //陰影擴散程度
+              )
+        ],
+      ),
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: kWeatherKey.length,
@@ -41,15 +54,13 @@ class HomeView extends GetView<HomeController> {
               child: Column(
                 children: [
                   SizedBox(
-                    height: 60,
-                    width: 60,
-                    child: Image.asset(
-                        kWeatherType[kWeatherKey[index]]!['image']!),
-                  ),
-                  Text(
-                    kWeatherType[kWeatherKey[index]]!['type']!,
-                    style: TextStyle(color: kWhiteColor),
-                  ),
+                      height: 60,
+                      width: 60,
+                      child: CommonWidget.imageAsset(
+                          kWeatherType[kWeatherKey[index]]!['image']!)),
+                  CommonWidget.bodyText(
+                      kWeatherType[kWeatherKey[index]]!['type']!,
+                      fontSize: 15)
                 ],
               ).paddingSymmetric(horizontal: 15),
             );
@@ -60,26 +71,20 @@ class HomeView extends GetView<HomeController> {
   Widget mainCityWeather() {
     return Column(
       children: [
-        Text(
-          '台北',
-          style: TextStyle(
-              color: kWhiteColor, fontWeight: FontWeight.w600, fontSize: 40),
-        ),
+        CommonWidget.headText('台北'),
         const SizedBox(
           height: 5,
         ),
-        Text('7月 22日 2021', style: TextStyle(color: kWhiteColor, fontSize: 18)),
+        CommonWidget.bodyText('7月 22日 2021'),
         SizedBox(
-          height: 150,
-          width: 150,
-          child: Image.asset('assets/image/Moon cloud fast wind.png'),
-        ),
+            height: 150,
+            width: 150,
+            child: CommonWidget.imageAsset(
+                'assets/image/Moon cloud fast wind.png')),
         const SizedBox(
           height: 10,
         ),
-        Text('26 °C',
-            style: TextStyle(
-                color: kWhiteColor, fontSize: 50, fontWeight: FontWeight.w600)),
+        CommonWidget.headText('26 °C', fontSize: 50),
         const SizedBox(
           height: 20,
         ),
@@ -91,10 +96,8 @@ class HomeView extends GetView<HomeController> {
               height: Get.width * 0.3,
               child: Column(
                 children: [
-                  Text('溫度',
-                      style: TextStyle(color: kWhiteColor, fontSize: 18)),
-                  Text('26 °C',
-                      style: TextStyle(color: kWhiteColor, fontSize: 18)),
+                  CommonWidget.bodyText('溫度'),
+                  CommonWidget.bodyText('26 °C'),
                 ],
               ),
             ),
@@ -103,10 +106,8 @@ class HomeView extends GetView<HomeController> {
               height: Get.width * 0.3,
               child: Column(
                 children: [
-                  Text('濕度',
-                      style: TextStyle(color: kWhiteColor, fontSize: 18)),
-                  Text('60%',
-                      style: TextStyle(color: kWhiteColor, fontSize: 18)),
+                  CommonWidget.bodyText('濕度'),
+                  CommonWidget.bodyText('60%'),
                 ],
               ),
             ),
@@ -115,10 +116,8 @@ class HomeView extends GetView<HomeController> {
               height: Get.width * 0.3,
               child: Column(
                 children: [
-                  Text('風速',
-                      style: TextStyle(color: kWhiteColor, fontSize: 18)),
-                  Text('10 km/h',
-                      style: TextStyle(color: kWhiteColor, fontSize: 18)),
+                  CommonWidget.bodyText('風速'),
+                  CommonWidget.bodyText('10 km/h'),
                 ],
               ),
             )
@@ -137,13 +136,8 @@ class HomeView extends GetView<HomeController> {
             Container(
               alignment: Alignment.centerLeft,
               width: Get.width * 0.5,
-              child: Text(
-                'Today',
-                style: TextStyle(
-                    color: kWhiteColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
-              ).paddingOnly(left: 30),
+              child: CommonWidget.headText('Today', fontSize: 20)
+                  .paddingOnly(left: 30),
             ),
             Container(
               width: Get.width * 0.5,
@@ -154,11 +148,30 @@ class HomeView extends GetView<HomeController> {
                   children: [
                     Text(
                       'View Report',
-                      style: TextStyle(color: selectColor, fontSize: 18),
+                      style: TextStyle(
+                        color: selectColor,
+                        fontSize: 18,
+                        shadows: [
+                          BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(4.0, 4.0), //陰影y軸偏移量
+                              blurRadius: 5, //陰影模糊程度
+                              spreadRadius: 1 //陰影擴散程度
+                              )
+                        ],
+                      ),
                     ),
-                    Icon(
+                    DecoratedIcon(
                       Icons.chevron_right,
                       color: selectColor,
+                      shadows: [
+                        BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(3.0, 3.0), //陰影y軸偏移量
+                            blurRadius: 5, //陰影模糊程度
+                            spreadRadius: 1 //陰影擴散程度
+                            )
+                      ],
                     )
                   ],
                 ).paddingOnly(right: 20),
@@ -171,7 +184,7 @@ class HomeView extends GetView<HomeController> {
         ),
         Container(
           width: Get.width,
-          height: 100,
+          height: 110,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
@@ -189,11 +202,19 @@ class HomeView extends GetView<HomeController> {
 
   Widget reportItem(int index) {
     return Container(
-      height: 90,
       width: 150,
       decoration: BoxDecoration(
-          color: index == 0 ? selectColor : kDarkCardColor,
-          borderRadius: BorderRadius.circular(30)),
+        color: index == 0 ? selectColor : CardColor,
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black26,
+              offset: Offset(3.0, 3.0), //陰影y軸偏移量
+              blurRadius: 5, //陰影模糊程度
+              spreadRadius: 1 //陰影擴散程度
+              )
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -201,25 +222,29 @@ class HomeView extends GetView<HomeController> {
           SizedBox(
             height: 50,
             width: 50,
-            child: Image.asset('assets/image/Moon cloud fast wind.png'),
+            child: SimpleShadow(
+                color: Colors.black26, // Default: Black
+                offset: Offset(0, 2), // Default: Offset(2, 2)
+                child: Image.asset('assets/image/Moon cloud fast wind.png')),
           ).paddingOnly(right: 10),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 '10:00 AM',
-                style:
-                    TextStyle(color: index == 0 ? Colors.black : kWhiteColor),
+                style: TextStyle(
+                  color: index == 0 ? Colors.black : cardTextColor,
+                ),
               ).paddingOnly(bottom: 10),
               Text(
                 '26 °C',
                 style:
-                    TextStyle(color: index == 0 ? Colors.black : kWhiteColor),
+                    TextStyle(color: index == 0 ? Colors.black : cardTextColor),
               )
             ],
           ),
         ],
       ),
-    ).paddingOnly(right: 20);
+    ).paddingOnly(right: 20, bottom: 10);
   }
 }
