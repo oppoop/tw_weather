@@ -175,7 +175,7 @@ class ForcastView extends GetView<ForcastController> {
                   Text(
                     'Tuesday',
                     style: TextStyle(
-                        color: kWhiteColor,
+                        color: cardTextColor,
                         fontWeight: FontWeight.w500,
                         fontSize: 15),
                   ),
@@ -184,7 +184,7 @@ class ForcastView extends GetView<ForcastController> {
                   ),
                   Text(
                     '7月 23',
-                    style: TextStyle(color: kWhiteColor, fontSize: 12),
+                    style: TextStyle(color: cardTextColor, fontSize: 12),
                   )
                 ],
               ),
@@ -195,7 +195,7 @@ class ForcastView extends GetView<ForcastController> {
                 width: Get.width * 0.25,
                 child: Text('26 °C',
                     style: TextStyle(
-                        color: kWhiteColor,
+                        color: cardTextColor,
                         fontSize: 30,
                         fontWeight: FontWeight.w500))),
             Container(

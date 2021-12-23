@@ -7,7 +7,7 @@ enum IndexPage {
   Setting,
 }
 
-bool appTheme = false;
+bool appTheme = true;
 final themeColor = appTheme ? kDarkThemeColor : kBrightThemeColor;
 final CardColor = appTheme ? kDarkCardColor : kBrightCardColor;
 final selectColor = appTheme ? kDarkSelectColor : kBrightSelectColor;
