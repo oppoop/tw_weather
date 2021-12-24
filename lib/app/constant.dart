@@ -7,6 +7,7 @@ enum IndexPage {
   Setting,
 }
 
+///主題色系
 bool appTheme = true;
 final themeColor = appTheme ? kDarkThemeColor : kBrightThemeColor;
 final CardColor = appTheme ? kDarkCardColor : kBrightCardColor;
@@ -19,7 +20,7 @@ final cardTextColor = appTheme ? kWhiteColor : kBlackColor;
 const kWhiteColor = const Color(0xffffffff);
 const kBlackColor = const Color(0xfff000000);
 
-///暗色系主題
+//暗色系主題
 const kDarkThemeColor = const Color(0xfff060D26);
 const kDarkCardColor = const Color(0xfff272F3A);
 const kDarkSelectColor = const Color(0xfffA7B4E0);
@@ -27,7 +28,7 @@ const kDarkTopColor = const Color(0xfff2C303F);
 const kDarkBottomColor = const Color(0xfff101A39);
 const kDarkIconColor = const Color(0xfff557EAE);
 
-///亮色系主題
+//亮色系主題
 
 const kBrightThemeColor = const Color(0xfff828CAE);
 const kBrightCardColor = const Color(0xfffFFFFFF);
@@ -35,6 +36,10 @@ const kBrightSelectColor = const Color(0xfffA7B4E0);
 const kBrightTopColor = const Color(0xfff7882A7);
 const kBrightBottomColor = const Color(0xfffA7B4E0);
 const kBrightIconColor = const Color(0xfff000000);
+
+///api資料
+const kDataStore = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/';
+const k36HForecast = 'F-C0032-001';
 
 ///天氣型態
 const kBigRainDrops = 'BR';
