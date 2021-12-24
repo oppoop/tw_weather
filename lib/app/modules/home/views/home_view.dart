@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 import 'package:tw_weather/app/routes/app_pages.dart';
-import 'package:tw_weather/app/widget/bottom_bar.dart';
 import 'package:tw_weather/utils/common_widget.dart';
 
 import '../../../constant.dart';
@@ -12,8 +11,7 @@ import '../controllers/home_controller.dart';
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Scaffold(
-        bottomNavigationBar: BottomNavBar(), body: controller.nowView()));
+    return homePage();
   }
 
   Widget homePage() {

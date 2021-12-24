@@ -5,6 +5,8 @@ import 'package:tw_weather/app/modules/forcast/bindings/forcast_binding.dart';
 import 'package:tw_weather/app/modules/forcast/views/forcast_view.dart';
 import 'package:tw_weather/app/modules/home/bindings/home_binding.dart';
 import 'package:tw_weather/app/modules/home/views/home_view.dart';
+import 'package:tw_weather/app/modules/index/bindings/index_binding.dart';
+import 'package:tw_weather/app/modules/index/views/index_view.dart';
 import 'package:tw_weather/app/modules/search/bindings/search_binding.dart';
 import 'package:tw_weather/app/modules/search/views/search_view.dart';
 import 'package:tw_weather/app/modules/setting/bindings/setting_binding.dart';
@@ -15,7 +17,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.INDEX;
 
   static final routes = [
     GetPage(
@@ -42,6 +44,11 @@ class AppPages {
       name: _Paths.FAVORITE,
       page: () => FavoriteView(),
       binding: FavoriteBinding(),
+    ),
+    GetPage(
+      name: _Paths.INDEX,
+      page: () => IndexView(),
+      binding: IndexBinding(),
     ),
   ];
 }

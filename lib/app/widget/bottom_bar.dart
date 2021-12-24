@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tw_weather/app/constant.dart';
-import 'package:tw_weather/app/modules/home/controllers/home_controller.dart';
+import 'package:tw_weather/app/modules/index/controllers/index_controller.dart';
 
 class BottomNavBar extends StatelessWidget {
-  final controller = Get.find<HomeController>();
+  final controller = Get.find<IndexController>();
 
   @override
   Widget build(BuildContext context) {

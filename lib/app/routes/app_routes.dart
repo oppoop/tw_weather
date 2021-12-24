@@ -10,6 +10,7 @@ abstract class Routes {
   static const SEARCH = _Paths.SEARCH;
   static const FORCAST = _Paths.FORCAST;
   static const FAVORITE = _Paths.FAVORITE;
+  static const INDEX = _Paths.INDEX;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const SEARCH = '/search';
   static const FORCAST = '/forcast';
   static const FAVORITE = '/favorite';
+  static const INDEX = '/index';
 }
