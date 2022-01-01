@@ -38,8 +38,11 @@ const kBrightBottomColor = const Color(0xfffA7B4E0);
 const kBrightIconColor = const Color(0xfff000000);
 
 ///api資料
-const kDataStore = 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/';
+const kDataAuth = 'opendata.cwb.gov.tw';
+const kDataPath = '/api/v1/rest/datastore/';
+
 const k36HForecast = 'F-C0032-001';
+const kYiLanWeek = 'F-D0047-003';
 
 ///天氣型態
 const kBigRainDrops = 'BR';

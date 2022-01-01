@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 import 'package:tw_weather/app/routes/app_pages.dart';
 import 'package:tw_weather/utils/common_widget.dart';
+import 'package:tw_weather/utils/json_animation.dart';
+import 'package:tw_weather/utils/loading_state.dart';
 
 import '../../../constant.dart';
 import '../controllers/home_controller.dart';
@@ -11,10 +13,14 @@ import '../controllers/home_controller.dart';
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
-    return homePage();
+    return GetBuilder<HomeController>(
+        init: HomeController(apiProvider: Get.find()),
+        builder: (controller) {
+          return homePage(controller);
+        });
   }
 
-  Widget homePage() {
+  Widget homePage(HomeController controller) {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -22,8 +28,14 @@ class HomeView extends GetView<HomeController> {
           const SizedBox(
             height: 30,
           ),
-          mainCityWeather(),
-          todayReport(),
+          controller.loadDataStatus.value == LoadDataStatus.finished
+              ? mainCityWeather(controller)
+              : JsonAnimation.loadAnimation(height: 200, width: 200)
+                  .paddingSymmetric(vertical: 50),
+          controller.loadDataStatus.value == LoadDataStatus.finished
+              ? todayReport()
+              : JsonAnimation.loadAnimation(height: 150, width: 150)
+                  .paddingSymmetric(vertical: 50),
         ],
       ),
     );
@@ -66,14 +78,18 @@ class HomeView extends GetView<HomeController> {
     ).paddingOnly(top: 50);
   }
 
-  Widget mainCityWeather() {
+  Widget mainCityWeather(HomeController controller) {
     return Column(
       children: [
-        CommonWidget.headText('台北'),
+        GestureDetector(
+          onTap: () => controller.getApi(),
+          child: CommonWidget.headText(controller.element[0].locationName),
+        ),
         const SizedBox(
           height: 5,
         ),
-        CommonWidget.bodyText('7月 22日 2021'),
+        CommonWidget.bodyText(controller.dateTimeChange(
+            controller.element[0].weatherElement[0].time[0].startTime)),
         SizedBox(
             height: 150,
             width: 150,
@@ -82,7 +98,9 @@ class HomeView extends GetView<HomeController> {
         const SizedBox(
           height: 10,
         ),
-        CommonWidget.headText('26 °C', fontSize: 50),
+        CommonWidget.headText(
+            '${controller.maxT[0].parameter.parameterName} °C',
+            fontSize: 50),
         const SizedBox(
           height: 20,
         ),
@@ -95,7 +113,8 @@ class HomeView extends GetView<HomeController> {
               child: Column(
                 children: [
                   CommonWidget.bodyText('溫度'),
-                  CommonWidget.bodyText('26 °C'),
+                  CommonWidget.bodyText(
+                      '${controller.maxT[0].parameter.parameterName} °C'),
                 ],
               ),
             ),
@@ -105,7 +124,8 @@ class HomeView extends GetView<HomeController> {
               child: Column(
                 children: [
                   CommonWidget.bodyText('濕度'),
-                  CommonWidget.bodyText('60%'),
+                  CommonWidget.bodyText(
+                      '${controller.pop[0].parameter.parameterName} %'),
                 ],
               ),
             ),
