@@ -1,16 +1,16 @@
-class Records {
-  Records({
+class AllCityRecords {
+  AllCityRecords({
     required this.datasetDescription,
     required this.location,
   });
 
   late final String datasetDescription;
-  late List<Location> location;
+  late List<AllCityLocation> location;
 
-  factory Records.fromJson(Map<String, dynamic> json) => Records(
+  factory AllCityRecords.fromJson(Map<String, dynamic> json) => AllCityRecords(
         datasetDescription: json["datasetDescription"] ?? '',
-        location: List<Location>.from(
-            json["location"].map((x) => Location.fromJson(x))),
+        location: List<AllCityLocation>.from(
+            json["location"].map((x) => AllCityLocation.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -19,16 +19,17 @@ class Records {
       };
 }
 
-class Location {
-  Location({required this.locationName, required this.weatherElement});
+class AllCityLocation {
+  AllCityLocation({required this.locationName, required this.weatherElement});
 
   late final String locationName;
-  List<WeatherElement> weatherElement;
+  List<AllCityWeatherElement> weatherElement;
 
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
+  factory AllCityLocation.fromJson(Map<String, dynamic> json) =>
+      AllCityLocation(
         locationName: json["locationName"] ?? '',
-        weatherElement: List<WeatherElement>.from(
-            json["weatherElement"].map((x) => WeatherElement.fromJson(x))),
+        weatherElement: List<AllCityWeatherElement>.from(json["weatherElement"]
+            .map((x) => AllCityWeatherElement.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -38,17 +39,17 @@ class Location {
       };
 }
 
-class WeatherElement {
-  WeatherElement({
+class AllCityWeatherElement {
+  AllCityWeatherElement({
     required this.elementName,
     required this.time,
   });
   late final String elementName;
-  late final List<Time> time;
+  late final List<AllCityTime> time;
 
-  WeatherElement.fromJson(Map<String, dynamic> json) {
+  AllCityWeatherElement.fromJson(Map<String, dynamic> json) {
     elementName = json['elementName'];
-    time = List.from(json['time']).map((e) => Time.fromJson(e)).toList();
+    time = List.from(json['time']).map((e) => AllCityTime.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -59,20 +60,20 @@ class WeatherElement {
   }
 }
 
-class Time {
-  Time({
+class AllCityTime {
+  AllCityTime({
     required this.startTime,
     required this.endTime,
     required this.parameter,
   });
   late final String startTime;
   late final String endTime;
-  late final Parameter parameter;
+  late final AllCityParameter parameter;
 
-  Time.fromJson(Map<String, dynamic> json) {
+  AllCityTime.fromJson(Map<String, dynamic> json) {
     startTime = json['startTime'];
     endTime = json['endTime'];
-    parameter = Parameter.fromJson(json['parameter']);
+    parameter = AllCityParameter.fromJson(json['parameter']);
   }
 
   Map<String, dynamic> toJson() {
@@ -84,13 +85,13 @@ class Time {
   }
 }
 
-class Parameter {
-  Parameter({
+class AllCityParameter {
+  AllCityParameter({
     required this.parameterName,
   });
   late final String parameterName;
 
-  Parameter.fromJson(Map<String, dynamic> json) {
+  AllCityParameter.fromJson(Map<String, dynamic> json) {
     parameterName = json['parameterName'];
   }
 

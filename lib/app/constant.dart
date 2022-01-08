@@ -41,8 +41,34 @@ const kBrightIconColor = const Color(0xfff000000);
 const kDataAuth = 'opendata.cwb.gov.tw';
 const kDataPath = '/api/v1/rest/datastore/';
 
-const k36HForecast = 'F-C0032-001';
-const kYiLanWeek = 'F-D0047-003';
+const k36HForecast = 'F-C0032-001'; //query location
+
+const cityData = const {
+  "YL": {
+    "chineseName": "宜蘭縣",
+    "EnglishName": "YiLan",
+    "twoDays": "F-D0047-001",
+    "week": "F-D0047-003"
+  },
+  "TY": {
+    "chineseName": "桃園市",
+    "EnglishName": "TaoYuan",
+    "twoDays": "F-D0047-005",
+    "week": "F-D0047-007"
+  },
+  "XZ": {
+    "chineseName": "新竹縣",
+    "EnglishName": "XinZhu",
+    "twoDays": "F-D0047-009",
+    "week": "F-D0047-011"
+  },
+  "ML": {
+    "chineseName": "苗栗縣",
+    "EnglishName": "MiaoLi",
+    "twoDays": "F-D0047-013",
+    "week": "F-D0047-015"
+  },
+};
 
 ///天氣型態
 const kBigRainDrops = 'BR';

@@ -2,10 +2,12 @@ import 'package:decorated_icon/decorated_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_shadow/simple_shadow.dart';
+import 'package:tw_weather/app/models/city_records_model.dart';
 import 'package:tw_weather/app/routes/app_pages.dart';
 import 'package:tw_weather/utils/common_widget.dart';
 import 'package:tw_weather/utils/json_animation.dart';
 import 'package:tw_weather/utils/loading_state.dart';
+import 'package:tw_weather/utils/time_transform.dart';
 
 import '../../../constant.dart';
 import '../controllers/home_controller.dart';
@@ -32,10 +34,7 @@ class HomeView extends GetView<HomeController> {
               ? mainCityWeather(controller)
               : JsonAnimation.loadAnimation(height: 200, width: 200)
                   .paddingSymmetric(vertical: 50),
-          controller.loadDataStatus.value == LoadDataStatus.finished
-              ? todayReport()
-              : JsonAnimation.loadAnimation(height: 150, width: 150)
-                  .paddingSymmetric(vertical: 50),
+          todayReport(controller)
         ],
       ),
     );
@@ -81,15 +80,31 @@ class HomeView extends GetView<HomeController> {
   Widget mainCityWeather(HomeController controller) {
     return Column(
       children: [
-        GestureDetector(
-          onTap: () => controller.getApi(),
-          child: CommonWidget.headText(controller.element[0].locationName),
+        CommonWidget.headText(controller.element[0].locationsName),
+        const SizedBox(
+          height: 5,
+        ),
+        DropdownButton<int>(
+          style: TextStyle(color: kWhiteColor),
+          hint: CommonWidget.bodyText(controller.location.value,
+              color: Colors.white),
+          dropdownColor: topColor,
+          onChanged: (newValue) {
+            controller.setNewLocation(newValue!);
+          },
+          value: controller.localSelect.value,
+          items: controller.localNum.map((selectedType) {
+            return DropdownMenuItem(
+              child: new Text(
+                  controller.element[0].location[selectedType].locationName),
+              value: selectedType,
+            );
+          }).toList(),
         ),
         const SizedBox(
           height: 5,
         ),
-        CommonWidget.bodyText(controller.dateTimeChange(
-            controller.element[0].weatherElement[0].time[0].startTime)),
+        CommonWidget.bodyText(TimeTransform.transMDY('2022-01-08 00:00:00')),
         SizedBox(
             height: 150,
             width: 150,
@@ -98,9 +113,9 @@ class HomeView extends GetView<HomeController> {
         const SizedBox(
           height: 10,
         ),
-        CommonWidget.headText(
-            '${controller.maxT[0].parameter.parameterName} °C',
-            fontSize: 50),
+        CommonWidget.headText(controller.ci[0].elementValue[1].value,
+                fontSize: 25)
+            .paddingSymmetric(vertical: 15),
         const SizedBox(
           height: 20,
         ),
@@ -114,7 +129,7 @@ class HomeView extends GetView<HomeController> {
                 children: [
                   CommonWidget.bodyText('溫度'),
                   CommonWidget.bodyText(
-                      '${controller.maxT[0].parameter.parameterName} °C'),
+                      '${controller.t[0].elementValue[0].value} °C'),
                 ],
               ),
             ),
@@ -123,9 +138,9 @@ class HomeView extends GetView<HomeController> {
               height: Get.width * 0.3,
               child: Column(
                 children: [
-                  CommonWidget.bodyText('濕度'),
+                  CommonWidget.bodyText('降雨機率'),
                   CommonWidget.bodyText(
-                      '${controller.pop[0].parameter.parameterName} %'),
+                      '${controller.pop[0].elementValue[0].value} %'),
                 ],
               ),
             ),
@@ -135,7 +150,8 @@ class HomeView extends GetView<HomeController> {
               child: Column(
                 children: [
                   CommonWidget.bodyText('風速'),
-                  CommonWidget.bodyText('10 km/h'),
+                  CommonWidget.bodyText(
+                      '${controller.ws[0].elementValue[0].value} km/h'),
                 ],
               ),
             )
@@ -145,7 +161,7 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget todayReport() {
+  Widget todayReport(HomeController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -200,17 +216,23 @@ class HomeView extends GetView<HomeController> {
         const SizedBox(
           height: 50,
         ),
-        Container(
-          width: Get.width,
-          height: 110,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return reportItem(index);
-              }),
-        ).paddingSymmetric(horizontal: 15),
+        controller.loadDataStatus.value == LoadDataStatus.finished
+            ? Container(
+                width: Get.width,
+                height: 110,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: controller.weather.length,
+                    itemBuilder: (context, index) {
+                      return reportItem(index,
+                          weather: controller.weather, T: controller.t);
+                    }),
+              ).paddingSymmetric(horizontal: 15)
+            : Center(
+                child: JsonAnimation.loadAnimation(height: 150, width: 150)
+                    .paddingSymmetric(vertical: 5),
+              ),
         const SizedBox(
           height: 50,
         ),
@@ -218,7 +240,8 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget reportItem(int index) {
+  Widget reportItem(int index,
+      {required List<CityTime> weather, required List<CityTime> T}) {
     return Container(
       width: 150,
       decoration: BoxDecoration(
@@ -233,32 +256,44 @@ class HomeView extends GetView<HomeController> {
               )
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Column(
         children: [
-          SizedBox(
-            height: 50,
-            width: 50,
-            child: SimpleShadow(
-                color: Colors.black26, // Default: Black
-                offset: Offset(0, 2), // Default: Offset(2, 2)
-                child: Image.asset('assets/image/Moon cloud fast wind.png')),
-          ).paddingOnly(right: 10),
-          Column(
+          Text(
+            TimeTransform.transMD(weather[index].startTime),
+            style: TextStyle(
+              color: index == 0 ? Colors.black : cardTextColor,
+            ),
+          ).paddingSymmetric(vertical: 5),
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                '10:00 AM',
-                style: TextStyle(
-                  color: index == 0 ? Colors.black : cardTextColor,
-                ),
-              ).paddingOnly(bottom: 10),
-              Text(
-                '26 °C',
-                style:
-                    TextStyle(color: index == 0 ? Colors.black : cardTextColor),
-              )
+              SizedBox(
+                height: 50,
+                width: 50,
+                child: SimpleShadow(
+                    color: Colors.black26, // Default: Black
+                    offset: Offset(0, 2), // Default: Offset(2, 2)
+                    child:
+                        Image.asset('assets/image/Moon cloud fast wind.png')),
+              ),
+              const SizedBox(width: 20),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    TimeTransform.transHM(weather[index].startTime),
+                    style: TextStyle(
+                      color: index == 0 ? Colors.black : cardTextColor,
+                    ),
+                  ).paddingOnly(bottom: 10),
+                  Text(
+                    '${T[index].elementValue[0].value} °C',
+                    style: TextStyle(
+                        color: index == 0 ? Colors.black : cardTextColor),
+                  )
+                ],
+              ),
             ],
           ),
         ],

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:tw_weather/app/data/api_provider.dart';
-import 'package:tw_weather/app/models/records_model.dart';
+import 'package:tw_weather/app/models/city_records_model.dart';
 import 'package:tw_weather/utils/loading_state.dart';
 
 class HomeController extends GetxController {
@@ -8,55 +8,69 @@ class HomeController extends GetxController {
 
   HomeController({required this.apiProvider});
 
-  final location = '宜蘭縣';
-  final element = RxList<Location>();
   final loadDataStatus = Rx<LoadDataStatus>(LoadDataStatus.loading);
-  final weather = RxList<Time>();
-  final pop = RxList<Time>();
-  final minT = RxList<Time>();
-  final maxT = RxList<Time>();
+
+  final city = '宜蘭縣';
+  final element = RxList<CityLocations>();
+  final localSelect = Rx<int>(0);
+  final localNum = RxList<int>();
+  final location = Rx<String>('');
+  final weather = RxList<CityTime>();
+  final ci = RxList<CityTime>();
+  final pop = RxList<CityTime>();
+  final t = RxList<CityTime>();
+  final ws = RxList<CityTime>();
 
   @override
   void onInit() {
     // TODO: implement onInit
-    getApi();
+    init();
     super.onInit();
   }
 
-  void getApi() async {
-    await apiProvider.get36hData(location: location).then((value) {
-      element.value = value.location;
-      getWeatherDetails(element[0].weatherElement);
+  void init() async {
+    await apiProvider.getCityData(location: city).then((value) {
+      element.value = value.locations;
+      getWeatherDetails();
     });
+    getLocalNumList();
     loadDataStatus.value = LoadDataStatus.finished;
     update();
   }
 
-  String dateTimeChange(String date) {
-    if (date.length != 0) {
-      return '${date.substring(5, 7)}月${date.substring(8, 10)}日 , ${date.substring(0, 4)}';
-    } else {
-      return '';
-    }
-  }
-
-  void getWeatherDetails(List<WeatherElement> data) {
-    data.forEach((element) {
+  void getWeatherDetails() {
+    location.value = element[0].location[localSelect.value].locationName;
+    element[0].location[localSelect.value].weatherElement.forEach((element) {
       switch (element.elementName) {
         case 'Wx':
           weather.value = element.time;
           break;
-        case 'PoP':
+        case 'PoP6h':
           pop.value = element.time;
           break;
-        case 'MinT':
-          minT.value = element.time;
+        case 'T':
+          t.value = element.time;
           break;
-        case 'MaxT':
-          maxT.value = element.time;
+        case 'CI':
+          ci.value = element.time;
+          break;
+        case 'WS':
+          ws.value = element.time;
           break;
       }
     });
+    update();
+  }
+
+  void getLocalNumList() {
+    for (int i = 0; i < element[0].location.length; i++) {
+      localNum.add(i);
+    }
+  }
+
+  void setNewLocation(int value) {
+    localSelect.value = value;
+    getWeatherDetails();
     update();
   }
 }
