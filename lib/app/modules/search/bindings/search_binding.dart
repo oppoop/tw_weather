@@ -6,7 +6,7 @@ class SearchBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<SearchController>(
-      () => SearchController(),
+      () => SearchController(apiProvider: Get.find()),
     );
   }
 }
