@@ -56,14 +56,25 @@ class SearchView extends GetView<SearchController> {
                     const SizedBox(
                       height: 30,
                     ),
-                    searchBlock(context),
-                    controller.loadDataStatus == LoadDataStatus.loading
-                        ? Center(
-                            child: JsonAnimation.loadAnimation(
-                                    height: 150, width: 150)
-                                .paddingSymmetric(vertical: 5),
-                          )
-                        : featureCity(),
+                    Obx(
+                      () => searchBlock(context),
+                    ),
+                    Obx(
+                      () => Stack(
+                        children: [
+                          controller.loadDataStatus == LoadDataStatus.loading
+                              ? Center(
+                                  child: JsonAnimation.loadAnimation(
+                                          height: 150, width: 150)
+                                      .paddingSymmetric(vertical: 5),
+                                )
+                              : featureCity(),
+                          controller.citySearch.length == 0
+                              ? Container()
+                              : searchMenu(context),
+                        ],
+                      ),
+                    ),
                     const SizedBox(
                       height: 30,
                     ),
@@ -83,7 +94,12 @@ class SearchView extends GetView<SearchController> {
           width: Get.width * 0.6,
           decoration: BoxDecoration(
             color: CardColor,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: controller.citySearch.length == 0
+                ? BorderRadius.circular(20)
+                : BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
             boxShadow: [
               BoxShadow(
                   color: Colors.black26,
@@ -101,6 +117,12 @@ class SearchView extends GetView<SearchController> {
             decoration: InputDecoration(
               hintText: 'Search',
               hintStyle: TextStyle(color: kWhiteColor),
+              suffixIcon: IconButton(
+                  onPressed: () => controller.textClean(),
+                  icon: Icon(
+                    Icons.cancel,
+                    color: kWhiteColor,
+                  )),
               border: InputBorder.none,
             ),
           ).paddingOnly(left: 20),
@@ -110,9 +132,13 @@ class SearchView extends GetView<SearchController> {
         ),
         GestureDetector(
             onTap: () {
-              FocusScope.of(context).unfocus();
-              ;
-              controller.searchCity();
+              controller.searchCityCheck();
+              if (controller.searchCheck.value) {
+                FocusScope.of(context).unfocus();
+                controller
+                    .getSearchCityData(context)
+                    .then((value) => controller.searchCheck.value = false);
+              }
             },
             child: CommonWidget.cardWidget(
                 height: 65,
@@ -221,36 +247,53 @@ class SearchView extends GetView<SearchController> {
     ).paddingSymmetric(vertical: 5);
   }
 
-  Widget _buildCountry() {
-    return FormField(
-      builder: (FormFieldState state) {
-        return DropdownButtonHideUnderline(
-          child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              new InputDecorator(
-                decoration: InputDecoration(
-                  filled: false,
-                  hintText: 'Choose Country',
-                  prefixIcon: Icon(Icons.location_on),
-                ),
-                isEmpty: controller.citySearch.length == 0,
-                child: new DropdownButton(
-                  value: 1,
-                  isDense: true,
-                  onChanged: (newValue) {},
-                  items: controller.citySearch.map((value) {
-                    return DropdownMenuItem(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+  Widget searchMenu(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+            alignment: Alignment.center,
+            height: 70 * (controller.citySearch.length.toDouble()),
+            width: Get.width * 0.6,
+            decoration: BoxDecoration(
+              color: CardColor,
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20)),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(4.0, 4.0), //陰影y軸偏移量
+                    blurRadius: 5, //陰影模糊程度
+                    spreadRadius: 1 //陰影擴散程度
+                    )
+              ],
+            ),
+            child: MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: controller.citySearch.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
+                          controller.textChoose(controller.citySearch[index]);
+                        },
+                        title: CommonWidget.bodyText(
+                            controller.citySearch[index]));
+                  }),
+            )),
+        const SizedBox(
+          width: 20,
+        ),
+        SizedBox(
+          height: 65,
+          width: Get.width * 0.15,
+        ),
+      ],
     );
   }
 }
