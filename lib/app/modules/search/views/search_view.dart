@@ -28,16 +28,14 @@ class SearchView extends GetView<SearchController> {
                     const SizedBox(
                       height: 50,
                     ),
-                    Align(
-                        child: CommonWidget.headText('Pick a location',
-                            fontSize: 25)),
+                    Align(child: CommonWidget.headText('選擇地區', fontSize: 25)),
                     const SizedBox(
                       height: 5,
                     ),
                     Container(
                       width: Get.width * 0.7,
                       child: Text(
-                        'Type the area or city you want to know the detailed weather information at this time.',
+                        '輸入縣市查詢簡易即時天氣資訊',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: kWhiteColor,
@@ -136,7 +134,8 @@ class SearchView extends GetView<SearchController> {
               if (controller.searchCheck.value) {
                 FocusScope.of(context).unfocus();
                 controller
-                    .getSearchCityData(context)
+                    .getSearchCityData(
+                        context, controller.textEditingController.text)
                     .then((value) => controller.searchCheck.value = false);
               }
             },
@@ -200,8 +199,8 @@ class SearchView extends GetView<SearchController> {
                     SizedBox(
                       width: 80,
                       height: 80,
-                      child: CommonWidget.imageAsset(
-                          'assets/image/Moon cloud fast wind.png'),
+                      child: CommonWidget.imageAsset(controller.recommendCity[0]
+                          .weatherElement[0].time[0].parameter.parameterValue),
                     ),
                     Column(
                       children: [
@@ -234,7 +233,7 @@ class SearchView extends GetView<SearchController> {
           width: 60,
           height: 60,
           child:
-              CommonWidget.imageAsset('assets/image/Moon cloud fast wind.png'),
+              CommonWidget.imageAsset(data[0].time[0].parameter.parameterValue),
         ),
         Column(
           children: [

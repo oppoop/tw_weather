@@ -88,16 +88,20 @@ class AllCityTime {
 class AllCityParameter {
   AllCityParameter({
     required this.parameterName,
+    required this.parameterValue,
   });
   late final String parameterName;
+  late final String parameterValue;
 
   AllCityParameter.fromJson(Map<String, dynamic> json) {
     parameterName = json['parameterName'];
+    parameterValue = json['parameterValue'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['parameterName'] = parameterName;
+    _data['parameterValue'] = parameterValue;
     return _data;
   }
 }

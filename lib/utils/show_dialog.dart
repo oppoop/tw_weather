@@ -40,7 +40,8 @@ class ShowDialog {
         });
   }
 
-  static Future<void> dialogSuccess(BuildContext context) async {
+  static Future<void> dialogSuccess(BuildContext context,
+      {String text = ''}) async {
     return showDialog<void>(
         context: context,
         barrierColor: Colors.black38,
@@ -58,12 +59,19 @@ class ShowDialog {
                       color: Colors.black,
                       borderRadius: BorderRadius.circular(8)),
                   height: 100,
-                  child: Center(
-                      child: Icon(
-                    Icons.assignment_turned_in,
-                    color: Colors.green,
-                    size: 30,
-                  )),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.assignment_turned_in,
+                        color: Colors.green,
+                        size: 30,
+                      ),
+                      text == ''
+                          ? Container()
+                          : CommonWidget.bodyText(text, fontSize: 15)
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -77,90 +85,104 @@ class ShowDialog {
     required List<AllCityWeatherElement> data,
     required Function onPress1,
     required Function onPress2,
+    required RxBool selection,
   }) async {
     return showDialog<void>(
         context: context,
         barrierColor: Colors.black38,
         builder: (BuildContext context) {
-          return UnconstrainedBox(
-            constrainedAxis: Axis.vertical,
-            child: SizedBox(
-              width: Get.width * 0.6,
-              child: Dialog(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0)),
-                insetPadding: EdgeInsets.zero,
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(8)),
-                    height: Get.height * 0.55,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Align(
-                            alignment: Alignment.topLeft,
-                            child: IconButton(
-                              onPressed: () => Get.back(),
-                              icon: Icon(
-                                Icons.clear,
-                                color: kWhiteColor,
-                              ),
-                            )),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            width: Get.width * 0.6,
-                            height: Get.height * 0.35,
-                            color: selectColor,
+          return StatefulBuilder(
+              builder: (context, setState) => UnconstrainedBox(
+                    constrainedAxis: Axis.vertical,
+                    child: SizedBox(
+                      width: Get.width * 0.6,
+                      child: Dialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0)),
+                        insetPadding: EdgeInsets.zero,
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(8)),
+                            height: Get.height * 0.55,
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                CommonWidget.headText(
-                                    '${data[2].time[0].parameter.parameterName} °C',
-                                    color: cardTextColor,
-                                    fontSize: 30),
-                                SizedBox(
-                                  width: 80,
-                                  height: 80,
-                                  child: CommonWidget.imageAsset(
-                                      'assets/image/Moon cloud fast wind.png'),
+                                Align(
+                                    alignment: Alignment.topLeft,
+                                    child: IconButton(
+                                      onPressed: () => Get.back(),
+                                      icon: Icon(
+                                        Icons.clear,
+                                        color: kWhiteColor,
+                                      ),
+                                    )),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                    width: Get.width * 0.6,
+                                    height: Get.height * 0.35,
+                                    color: selectColor,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        CommonWidget.headText(
+                                            '${data[2].time[0].parameter.parameterName} °C',
+                                            color: cardTextColor,
+                                            fontSize: 30),
+                                        SizedBox(
+                                          width: 80,
+                                          height: 80,
+                                          child: CommonWidget.imageAsset(data[0]
+                                              .time[0]
+                                              .parameter
+                                              .parameterValue),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        CommonWidget.bodyText(
+                                            data[0]
+                                                .time[0]
+                                                .parameter
+                                                .parameterName,
+                                            fontSize: 20),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        CommonWidget.headText(city,
+                                            color: cardTextColor, fontSize: 25)
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                const SizedBox(
-                                  height: 10,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Obx(
+                                      () => IconButton(
+                                          onPressed: () => setState(
+                                              onPress1 as void Function()),
+                                          icon: Icon(
+                                            Icons.where_to_vote_outlined,
+                                            color: selection.value
+                                                ? Colors.green
+                                                : kWhiteColor,
+                                          )),
+                                    ),
+                                    IconButton(
+                                        onPressed: onPress2 as void Function(),
+                                        icon: Icon(Icons.favorite_border,
+                                            color: kWhiteColor)),
+                                  ],
                                 ),
-                                CommonWidget.bodyText(
-                                    data[0].time[0].parameter.parameterName,
-                                    fontSize: 20),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                CommonWidget.headText(city,
-                                    color: cardTextColor, fontSize: 25)
                               ],
-                            ),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            IconButton(
-                                onPressed: onPress1 as void Function(),
-                                icon: Icon(
-                                  Icons.where_to_vote_outlined,
-                                  color: kWhiteColor,
-                                )),
-                            IconButton(
-                                onPressed: onPress2 as void Function(),
-                                icon: Icon(Icons.favorite_border,
-                                    color: kWhiteColor)),
-                          ],
-                        ),
-                      ],
-                    )),
-              ),
-            ),
-          );
+                            )),
+                      ),
+                    ),
+                  ));
         });
   }
 }

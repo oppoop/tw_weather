@@ -218,25 +218,27 @@ const kWeatherType = const {
     'type': kSunny,
     'name': '晴天',
     'image': 'assets/image/Sunny.png',
-    'value': ['01'],
+    'value': ['1', '01'],
   },
   kSunCloud: {
     'type': kSunCloud,
     'name': '晴時多雲',
     'image': 'assets/image/PartlyCloudy.png',
-    'value': ['02', '03', '04', '24', '25', '26', '27'],
+    'value': ['2', '3', '4', '02', '03', '04', '24', '25', '26', '27'],
   },
   kMoonCloudFastWind: {
     'type': kMoonCloudFastWind,
     'name': '陰時多雲',
     'image': 'assets/image/Moon cloud fast wind.png',
-    'value': ['05', '06', '07', '28'],
+    'value': ['5', '6', '7', '05', '06', '07', '28'],
   },
   kMoonCloudMidRain: {
     'type': kMoonCloudMidRain,
     'name': '陰局部雨',
     'image': 'assets/image/Moon cloud mid rain.png',
     'value': [
+      '8',
+      '9',
       '08',
       '09',
       '10',
@@ -288,7 +290,7 @@ const kWeatherType = const {
     'type': kTornado,
     'name': '颶風',
     'image': 'assets/image/Tornado.png',
-    'value': [],
+    'value': [''],
   },
 
   ///暫無使用

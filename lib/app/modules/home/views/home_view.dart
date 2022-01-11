@@ -63,12 +63,20 @@ class HomeView extends GetView<HomeController> {
               child: Column(
                 children: [
                   SizedBox(
-                      height: 60,
-                      width: 60,
-                      child: CommonWidget.imageAsset(
-                          kWeatherType[kWeatherKey[index]]!['image']!)),
+                    height: 60,
+                    width: 60,
+                    child: SimpleShadow(
+                      child: Image.asset(
+                          kWeatherType[kWeatherKey[index]]!['image']!
+                              as String),
+                      opacity: 0.7, // Default: 0.5
+                      color: Colors.black38, // Default: Black
+                      offset: Offset(5, 5), // Default: Offset(2, 2)
+                      sigma: 3, // Default: 2
+                    ),
+                  ),
                   CommonWidget.bodyText(
-                      kWeatherType[kWeatherKey[index]]!['type']!,
+                      kWeatherType[kWeatherKey[index]]!['name']! as String,
                       fontSize: 15)
                 ],
               ).paddingSymmetric(horizontal: 15),
@@ -104,16 +112,16 @@ class HomeView extends GetView<HomeController> {
         const SizedBox(
           height: 5,
         ),
-        CommonWidget.bodyText(TimeTransform.transMDY('2022-01-08 00:00:00')),
+        CommonWidget.bodyText(controller.date.value),
         SizedBox(
             height: 150,
             width: 150,
             child: CommonWidget.imageAsset(
-                'assets/image/Moon cloud fast wind.png')),
+                controller.weather[0].elementValue[1].value)),
         const SizedBox(
           height: 10,
         ),
-        CommonWidget.headText(controller.ci[0].elementValue[1].value,
+        CommonWidget.headText(controller.weather[0].elementValue[0].value,
                 fontSize: 25)
             .paddingSymmetric(vertical: 15),
         const SizedBox(
@@ -170,7 +178,7 @@ class HomeView extends GetView<HomeController> {
             Container(
               alignment: Alignment.centerLeft,
               width: Get.width * 0.5,
-              child: CommonWidget.headText('Today', fontSize: 20)
+              child: CommonWidget.headText('近3日', fontSize: 20)
                   .paddingOnly(left: 30),
             ),
             Container(
@@ -181,7 +189,7 @@ class HomeView extends GetView<HomeController> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      'View Report',
+                      '查看未來一周',
                       style: TextStyle(
                         color: selectColor,
                         fontSize: 18,
@@ -269,14 +277,15 @@ class HomeView extends GetView<HomeController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: 50,
-                width: 50,
-                child: SimpleShadow(
-                    color: Colors.black26, // Default: Black
-                    offset: Offset(0, 2), // Default: Offset(2, 2)
-                    child:
-                        Image.asset('assets/image/Moon cloud fast wind.png')),
-              ),
+                  height: 50,
+                  width: 50,
+                  child: CommonWidget.imageAsset(
+                      weather[0].elementValue[1].value,
+                      color: Colors.black26,
+                      opacity: 0.5,
+                      dx: 0,
+                      dy: 2,
+                      sigma: 2)),
               const SizedBox(width: 20),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,

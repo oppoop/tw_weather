@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:tw_weather/app/data/api_provider.dart';
 import 'package:tw_weather/app/models/all_city_records_model.dart';
 import 'package:tw_weather/utils/loading_state.dart';
@@ -14,11 +15,13 @@ class SearchController extends GetxController {
 
   final TextEditingController textEditingController = TextEditingController();
   final FocusNode focusNode = FocusNode();
+  final box = GetStorage();
 
   final loadDataStatus = Rx<LoadDataStatus>(LoadDataStatus.loading);
   final recommendCity = RxList<AllCityLocation>();
-  final citySearch = <String>[].obs;
-  final searchCheck = false.obs;
+  final citySearch = <String>[].obs; //城市關鍵字列表
+  final searchCheck = false.obs; //城市搜尋名稱檢查
+  final homeSelectionStatus = false.obs;
 
   @override
   void onInit() {
@@ -45,6 +48,8 @@ class SearchController extends GetxController {
     super.dispose();
   }
 
+  ///獲取api資料
+  //取得推薦城市
   void getRecommendCity() async {
     await apiProvider
         .getAllCityData(location: '臺北市,臺中市,高雄市')
@@ -53,6 +58,29 @@ class SearchController extends GetxController {
     update();
   }
 
+  //取得搜尋城市
+  Future<void> getSearchCityData(BuildContext context, String city) async {
+    ShowDialog.dialogLoading(context);
+    if (city == (box.read('HomeCity') ?? '')) {
+      homeSelectionStatus.value = true;
+    } else {
+      homeSelectionStatus.value = false;
+    }
+    await apiProvider
+        .getAllCityData(location: textEditingController.text)
+        .then((value) {
+      Get.back();
+      ShowDialog.dialogReport(context,
+          city: value.location[0].locationName,
+          data: value.location[0].weatherElement,
+          onPress1: () => citySelection(context, city),
+          onPress2: () {},
+          selection: homeSelectionStatus);
+    });
+  }
+
+  ///搜尋欄位
+  //地名搜尋關鍵字
   void searchCityName() {
     citySearch.value = [];
     cityData.values.forEach((element) {
@@ -64,11 +92,13 @@ class SearchController extends GetxController {
     });
   }
 
+  //文字清除
   void textClean() {
     textEditingController.text = '';
     citySearch.clear();
   }
 
+  //文字選取
   void textChoose(String text) {
     textEditingController.text = text;
     citySearch.clear();
@@ -84,17 +114,15 @@ class SearchController extends GetxController {
     }
   }
 
-  Future<void> getSearchCityData(BuildContext context) async {
-    ShowDialog.dialogLoading(context);
-    await apiProvider
-        .getAllCityData(location: textEditingController.text)
-        .then((value) {
-      Get.back();
-      ShowDialog.dialogReport(context,
-          city: value.location[0].locationName,
-          data: value.location[0].weatherElement,
-          onPress1: () {},
-          onPress2: () {});
-    });
+  ///搜尋資料dialog功能
+  //主頁釘選功能
+  void citySelection(BuildContext context, String city) {
+    String homeCity = box.read('HomeCity') ?? '';
+    if (homeCity != city) {
+      box.write('HomeCity', city);
+      homeSelectionStatus.value = true;
+      ShowDialog.dialogSuccess(context, text: '釘選成功');
+      Future.delayed(Duration(milliseconds: 500)).then((value) => Get.back());
+    }
   }
 }

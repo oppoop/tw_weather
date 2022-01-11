@@ -59,12 +59,14 @@ class SettingView extends GetView<SettingController> {
               child: Column(
                 children: [
                   ListTile(
-                    title: CommonWidget.headText('主題切換', fontSize: 20),
-                    trailing: Switch(value: true, onChanged: (value) {}),
-                  ),
+                      title: CommonWidget.headText('主題切換', fontSize: 20),
+                      trailing: CommonWidget.bodyText('尚未開放')
+                      //Switch(value: true, onChanged: (value) {}),
+                      ),
                   ListTile(
                     title: CommonWidget.headText('語系切換', fontSize: 20),
-                    trailing: DropdownButton(
+                    trailing: CommonWidget.bodyText('尚未開放'),
+                    /* DropdownButton(
                       items: <String>['A', 'B', 'C', 'D'].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -72,8 +74,8 @@ class SettingView extends GetView<SettingController> {
                         );
                       }).toList(),
                       onChanged: (_) {},
-                    ),
-                  ).paddingOnly(right: 10),
+                    ),*/
+                  ), //.paddingOnly(right: 10),
                   ListTile(
                     title: CommonWidget.headText('關於', fontSize: 20),
                     trailing: DecoratedIcon(

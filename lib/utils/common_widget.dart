@@ -48,13 +48,28 @@ class CommonWidget {
     );
   }
 
-  static Widget imageAsset(String image) {
+//Moon cloud fast wind.png
+  static Widget imageAsset(String weatherType,
+      {Color color = Colors.black38,
+      double opacity = 0.7,
+      double dx = 5,
+      double dy = 5,
+      double sigma = 3}) {
+    String image = '';
+    kWeatherType.forEach((key, value) {
+      List data = value['value'] as List<String>;
+      data.forEach((element) {
+        if (element == weatherType) {
+          image = value['image'] as String;
+        }
+      });
+    });
     return SimpleShadow(
       child: Image.asset(image),
-      opacity: 0.7, // Default: 0.5
-      color: Colors.black38, // Default: Black
-      offset: Offset(5, 5), // Default: Offset(2, 2)
-      sigma: 3, // Default: 2
+      opacity: opacity, // Default: 0.5
+      color: color, // Default: Black
+      offset: Offset(dx, dy), // Default: Offset(2, 2)
+      sigma: sigma, // Default: 2
     );
   }
 

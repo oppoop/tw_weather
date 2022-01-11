@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:tw_weather/app/data/api_provider.dart';
 import 'package:tw_weather/app/models/city_records_model.dart';
 import 'package:tw_weather/utils/loading_state.dart';
@@ -8,9 +9,12 @@ class HomeController extends GetxController {
 
   HomeController({required this.apiProvider});
 
+  final box = GetStorage();
+
   final loadDataStatus = Rx<LoadDataStatus>(LoadDataStatus.loading);
 
-  final city = '宜蘭縣';
+  final city = Rx<String>('');
+  final date = Rx<String>('');
   final element = RxList<CityLocations>();
   final localSelect = Rx<int>(0);
   final localNum = RxList<int>();
@@ -28,8 +32,26 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  void init() async {
-    await apiProvider.getCityData(location: city).then((value) {
+  @override
+  void onReady() {
+    // TODO: implement onReady
+    getApiData();
+    super.onReady();
+  }
+
+  void init() {
+    //獲取當天日期
+    DateTime now = DateTime.now();
+    date.value = '${now.month}月${now.day}日 , ${now.year}';
+    //主頁釘選地區
+    city.value = box.read('HomeCity') ?? '臺北市';
+    update();
+  }
+
+  ///天氣詳細資料
+//獲取主頁釘選城市資料
+  void getApiData() async {
+    await apiProvider.getCityData(location: city.value).then((value) {
       element.value = value.locations;
       getWeatherDetails();
     });
@@ -38,6 +60,7 @@ class HomeController extends GetxController {
     update();
   }
 
+//天氣因子分類
   void getWeatherDetails() {
     location.value = element[0].location[localSelect.value].locationName;
     element[0].location[localSelect.value].weatherElement.forEach((element) {
@@ -62,12 +85,15 @@ class HomeController extends GetxController {
     update();
   }
 
+  ///鄉鎮資料列表
+//鄉鎮資料列表index
   void getLocalNumList() {
     for (int i = 0; i < element[0].location.length; i++) {
       localNum.add(i);
     }
   }
 
+//切換鄉鎮
   void setNewLocation(int value) {
     localSelect.value = value;
     getWeatherDetails();
