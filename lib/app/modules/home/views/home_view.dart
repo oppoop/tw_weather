@@ -184,7 +184,16 @@ class HomeView extends GetView<HomeController> {
             Container(
               width: Get.width * 0.5,
               child: GestureDetector(
-                onTap: () => Get.toNamed(Routes.FORCAST),
+                onTap: () => Get.toNamed(Routes.FORCAST, arguments: {
+                  'city': controller.city.value,
+                  'localSelect': controller.localSelect.value,
+                  'todayWeekDay': controller.now.weekday,
+                  'weather': controller.weather,
+                  't': controller.t,
+                  'y': controller.now.year,
+                  'm': controller.now.month,
+                  'd': controller.now.day
+                }),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

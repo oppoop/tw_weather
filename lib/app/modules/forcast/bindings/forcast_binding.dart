@@ -6,7 +6,7 @@ class ForcastBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<ForcastController>(
-      () => ForcastController(),
+      () => ForcastController(apiProvider: Get.find()),
     );
   }
 }

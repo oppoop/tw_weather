@@ -10,7 +10,7 @@ class HomeController extends GetxController {
   HomeController({required this.apiProvider});
 
   final box = GetStorage();
-
+  final now = DateTime.now();
   final loadDataStatus = Rx<LoadDataStatus>(LoadDataStatus.loading);
 
   final city = Rx<String>('');
@@ -41,7 +41,6 @@ class HomeController extends GetxController {
 
   void init() {
     //獲取當天日期
-    DateTime now = DateTime.now();
     date.value = '${now.month}月${now.day}日 , ${now.year}';
     //主頁釘選地區
     city.value = box.read('HomeCity') ?? '臺北市';
@@ -51,7 +50,7 @@ class HomeController extends GetxController {
   ///天氣詳細資料
 //獲取主頁釘選城市資料
   void getApiData() async {
-    await apiProvider.getCityData(location: city.value).then((value) {
+    await apiProvider.getCityDataTwoDays(location: city.value).then((value) {
       element.value = value.locations;
       getWeatherDetails();
     });

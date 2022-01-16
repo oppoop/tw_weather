@@ -25,7 +25,7 @@ class ApiProvider {
     return Future<AllCityRecords>.error('Error');
   }
 
-  Future<CityRecords> getCityData({required String location}) async {
+  Future<CityRecords> getCityDataTwoDays({required String location}) async {
     String? cityPath;
     cityData.forEach((key, value) {
       if (value['chineseName'] == location) {
@@ -38,6 +38,26 @@ class ApiProvider {
     final result = await dio.get(url);
     final response = Success.fromJson(result.data as Map<String, dynamic>);
     if (response.success == 'true') {
+      final records = CityRecords.fromJson(response.records);
+      return Future<CityRecords>.value(records);
+    }
+    return Future<CityRecords>.error('Error');
+  }
+
+  Future<CityRecords> getCityDataWeek({required String location}) async {
+    String? cityPath;
+    cityData.forEach((key, value) {
+      if (value['chineseName'] == location) {
+        cityPath = value['week'];
+      }
+    });
+    final uri = Uri.https(
+        kDataAuth, '$kDataPath$cityPath/', {"Authorization": authorization});
+    final url = uri.toString();
+    final result = await dio.get(url);
+    final response = Success.fromJson(result.data as Map<String, dynamic>);
+    if (response.success == 'true') {
+      print(response.records);
       final records = CityRecords.fromJson(response.records);
       return Future<CityRecords>.value(records);
     }
