@@ -29,6 +29,8 @@ class SearchController extends GetxController {
     textEditingController.addListener(() {
       if (textEditingController.text != '') {
         searchCityName();
+      } else {
+        citySearch.clear();
       }
     });
     super.onInit();

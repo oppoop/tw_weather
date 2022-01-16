@@ -249,10 +249,11 @@ class SearchView extends GetView<SearchController> {
   Widget searchMenu(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
             alignment: Alignment.center,
-            height: 70 * (controller.citySearch.length.toDouble()),
+            height: 60 * (controller.citySearch.length.toDouble()),
             width: Get.width * 0.6,
             decoration: BoxDecoration(
               color: CardColor,
