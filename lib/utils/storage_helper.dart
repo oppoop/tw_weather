@@ -18,7 +18,7 @@ class StorageHelper {
 
   //收藏項目取出
   static List<String> myFavorite(GetStorage box) {
-    List list = box.read('favorite');
+    List list = box.read('favorite') ?? [];
     List<String> favorite = [];
     list.forEach((element) => favorite.add(element));
     return favorite;

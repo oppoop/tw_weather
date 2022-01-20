@@ -18,6 +18,7 @@ class SearchController extends GetxController {
   final FocusNode focusNode = FocusNode();
   final box = GetStorage();
 
+  final itemIndex = 0.obs;
   final loadDataStatus = Rx<LoadDataStatus>(LoadDataStatus.loading);
   final recommendCity = RxList<AllCityLocation>();
   final citySearch = <String>[].obs; //城市關鍵字列表
@@ -72,9 +73,7 @@ class SearchController extends GetxController {
     } else {
       homeSelectionStatus.value = false;
     }
-    await apiProvider
-        .getAllCityData(location: textEditingController.text)
-        .then((value) {
+    await apiProvider.getAllCityData(location: city).then((value) {
       Get.back();
       favoriteStatus.value = favoriteList.contains(city);
       print(favoriteStatus);

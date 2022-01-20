@@ -66,7 +66,7 @@ class SearchView extends GetView<SearchController> {
                                           height: 150, width: 150)
                                       .paddingSymmetric(vertical: 5),
                                 )
-                              : featureCity(),
+                              : featureCity(context),
                           controller.citySearch.length == 0
                               ? Container()
                               : searchMenu(context),
@@ -152,29 +152,47 @@ class SearchView extends GetView<SearchController> {
     );
   }
 
-  Widget featureCity() {
+  Widget featureCity(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Column(
           children: [
-            CommonWidget.cardWidget(
-                height: 150,
-                width: 120,
-                color: selectColor,
-                widget: cardContext(
-                    city: controller.recommendCity[1].locationName,
-                    data: controller.recommendCity[1].weatherElement)),
+            GestureDetector(
+              onTap: () {
+                if (controller.itemIndex == 0) {
+                  controller.getSearchCityData(context, '臺中市');
+                } else {
+                  controller.itemIndex.value = 0;
+                }
+              },
+              child: CommonWidget.cardWidget(
+                  height: 150,
+                  width: 120,
+                  color: controller.itemIndex == 0 ? selectColor : CardColor,
+                  widget: cardContext(
+                      city: controller.recommendCity[1].locationName,
+                      data: controller.recommendCity[1].weatherElement)),
+            ),
             const SizedBox(
               height: 30,
             ),
-            CommonWidget.cardWidget(
-                height: 150,
-                width: 120,
-                color: CardColor,
-                widget: cardContext(
-                    city: controller.recommendCity[2].locationName,
-                    data: controller.recommendCity[2].weatherElement)),
+            GestureDetector(
+              onTap: () {
+                if (controller.itemIndex == 1) {
+                  controller.getSearchCityData(context, '高雄市');
+                } else {
+                  controller.itemIndex.value = 1;
+                }
+              },
+              child: CommonWidget.cardWidget(
+                  height: 150,
+                  width: 120,
+                  color: controller.itemIndex == 1 ? selectColor : CardColor,
+                  widget: cardContext(
+                      city: controller.recommendCity[2].locationName,
+                      data: controller.recommendCity[2].weatherElement)),
+            ),
           ],
         ),
         const SizedBox(
@@ -185,37 +203,50 @@ class SearchView extends GetView<SearchController> {
             const SizedBox(
               height: 100,
             ),
-            CommonWidget.cardWidget(
-                height: 300,
-                width: 120,
-                color: CardColor,
-                widget: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    CommonWidget.headText(
-                        '${controller.recommendCity[0].weatherElement[2].time[0].parameter.parameterName} °C',
-                        color: cardTextColor,
-                        fontSize: 30),
-                    SizedBox(
-                      width: 80,
-                      height: 80,
-                      child: CommonWidget.imageAsset(controller.recommendCity[0]
-                          .weatherElement[0].time[0].parameter.parameterValue),
-                    ),
-                    Column(
-                      children: [
-                        CommonWidget.bodyText(
-                            controller.recommendCity[0].weatherElement[0]
-                                .time[0].parameter.parameterName,
-                            fontSize: 20),
-                        CommonWidget.headText(
-                            controller.recommendCity[0].locationName,
-                            color: cardTextColor,
-                            fontSize: 25)
-                      ],
-                    ),
-                  ],
-                ))
+            GestureDetector(
+              onTap: () {
+                if (controller.itemIndex == 2) {
+                  controller.getSearchCityData(context, '臺北市');
+                } else {
+                  controller.itemIndex.value = 2;
+                }
+              },
+              child: CommonWidget.cardWidget(
+                  height: 300,
+                  width: 120,
+                  color: controller.itemIndex == 2 ? selectColor : CardColor,
+                  widget: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CommonWidget.headText(
+                          '${controller.recommendCity[0].weatherElement[2].time[0].parameter.parameterName} °C',
+                          color: cardTextColor,
+                          fontSize: 30),
+                      SizedBox(
+                        width: 80,
+                        height: 80,
+                        child: CommonWidget.imageAsset(controller
+                            .recommendCity[0]
+                            .weatherElement[0]
+                            .time[0]
+                            .parameter
+                            .parameterValue),
+                      ),
+                      Column(
+                        children: [
+                          CommonWidget.bodyText(
+                              controller.recommendCity[0].weatherElement[0]
+                                  .time[0].parameter.parameterName,
+                              fontSize: 20),
+                          CommonWidget.headText(
+                              controller.recommendCity[0].locationName,
+                              color: cardTextColor,
+                              fontSize: 25)
+                        ],
+                      ),
+                    ],
+                  )),
+            )
           ],
         ),
       ],
