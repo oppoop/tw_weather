@@ -86,6 +86,7 @@ class ShowDialog {
     required Function onPress1,
     required Function onPress2,
     required RxBool selection,
+    required RxBool favorite,
   }) async {
     return showDialog<void>(
         context: context,
@@ -166,16 +167,20 @@ class ShowDialog {
                                           onPressed: () => setState(
                                               onPress1 as void Function()),
                                           icon: Icon(
-                                            Icons.where_to_vote_outlined,
-                                            color: selection.value
-                                                ? Colors.green
-                                                : kWhiteColor,
+                                            selection.value
+                                                ? Icons.where_to_vote
+                                                : Icons.where_to_vote_outlined,
+                                            color: Colors.green,
                                           )),
                                     ),
                                     IconButton(
-                                        onPressed: onPress2 as void Function(),
-                                        icon: Icon(Icons.favorite_border,
-                                            color: kWhiteColor)),
+                                        onPressed: () => setState(
+                                            onPress2 as void Function()),
+                                        icon: Icon(
+                                            favorite.value
+                                                ? Icons.favorite
+                                                : Icons.favorite_border,
+                                            color: Colors.red)),
                                   ],
                                 ),
                               ],

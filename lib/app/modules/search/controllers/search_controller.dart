@@ -5,6 +5,7 @@ import 'package:tw_weather/app/data/api_provider.dart';
 import 'package:tw_weather/app/models/all_city_records_model.dart';
 import 'package:tw_weather/utils/loading_state.dart';
 import 'package:tw_weather/utils/show_dialog.dart';
+import 'package:tw_weather/utils/storage_helper.dart';
 
 import '../../../constant.dart';
 
@@ -22,6 +23,8 @@ class SearchController extends GetxController {
   final citySearch = <String>[].obs; //城市關鍵字列表
   final searchCheck = false.obs; //城市搜尋名稱檢查
   final homeSelectionStatus = false.obs;
+  final favoriteStatus = false.obs;
+  final favoriteList = <String>[].obs;
 
   @override
   void onInit() {
@@ -33,6 +36,7 @@ class SearchController extends GetxController {
         citySearch.clear();
       }
     });
+    favoriteList.value = StorageHelper.myFavorite(box);
     super.onInit();
   }
 
@@ -72,12 +76,19 @@ class SearchController extends GetxController {
         .getAllCityData(location: textEditingController.text)
         .then((value) {
       Get.back();
+      favoriteStatus.value = favoriteList.contains(city);
+      print(favoriteStatus);
       ShowDialog.dialogReport(context,
           city: value.location[0].locationName,
           data: value.location[0].weatherElement,
-          onPress1: () => citySelection(context, city),
-          onPress2: () {},
-          selection: homeSelectionStatus);
+          onPress1: () => StorageHelper.citySelection(context, box,
+              city: city, selection: homeSelectionStatus),
+          onPress2: () => StorageHelper.cityFavorite(context, box,
+              city: city,
+              favoriteList: favoriteList,
+              favoriteStatus: favoriteStatus),
+          selection: homeSelectionStatus,
+          favorite: favoriteStatus);
     });
   }
 
@@ -113,18 +124,6 @@ class SearchController extends GetxController {
           searchCheck.value = true;
         }
       });
-    }
-  }
-
-  ///搜尋資料dialog功能
-  //主頁釘選功能
-  void citySelection(BuildContext context, String city) {
-    String homeCity = box.read('HomeCity') ?? '';
-    if (homeCity != city) {
-      box.write('HomeCity', city);
-      homeSelectionStatus.value = true;
-      ShowDialog.dialogSuccess(context, text: '釘選成功');
-      Future.delayed(Duration(milliseconds: 500)).then((value) => Get.back());
     }
   }
 }

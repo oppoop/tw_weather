@@ -6,7 +6,7 @@ class FavoriteBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<FavoriteController>(
-      () => FavoriteController(),
+      () => FavoriteController(apiProvider: Get.find()),
     );
   }
 }
