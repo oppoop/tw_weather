@@ -121,50 +121,51 @@ class HomeView extends GetView<HomeController> {
         const SizedBox(
           height: 10,
         ),
-        CommonWidget.headText(controller.weather[0].elementValue[0].value,
-                fontSize: 25)
-            .paddingSymmetric(vertical: 15),
+        Obx(() => CommonWidget.headText(
+            controller
+                .weather[controller.itemIndex.value].elementValue[0].value,
+            fontSize: 25)).paddingSymmetric(vertical: 15),
         const SizedBox(
           height: 20,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              width: Get.width * 0.3,
-              height: Get.width * 0.3,
-              child: Column(
-                children: [
-                  CommonWidget.bodyText('溫度'),
-                  CommonWidget.bodyText(
-                      '${controller.t[0].elementValue[0].value} °C'),
-                ],
-              ),
-            ),
-            Container(
-              width: Get.width * 0.3,
-              height: Get.width * 0.3,
-              child: Column(
-                children: [
-                  CommonWidget.bodyText('降雨機率'),
-                  CommonWidget.bodyText(
-                      '${controller.pop[0].elementValue[0].value} %'),
-                ],
-              ),
-            ),
-            Container(
-              width: Get.width * 0.3,
-              height: Get.width * 0.3,
-              child: Column(
-                children: [
-                  CommonWidget.bodyText('風速'),
-                  CommonWidget.bodyText(
-                      '${controller.ws[0].elementValue[0].value} km/h'),
-                ],
-              ),
-            )
-          ],
-        ),
+        Obx(() => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  width: Get.width * 0.3,
+                  height: Get.width * 0.3,
+                  child: Column(
+                    children: [
+                      CommonWidget.bodyText('溫度'),
+                      CommonWidget.bodyText(
+                          '${controller.t[controller.itemIndex.value].elementValue[0].value} °C'),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: Get.width * 0.3,
+                  height: Get.width * 0.3,
+                  child: Column(
+                    children: [
+                      CommonWidget.bodyText('降雨機率'),
+                      CommonWidget.bodyText(
+                          '${controller.pop[controller.itemIndex.value].elementValue[0].value} %'),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: Get.width * 0.3,
+                  height: Get.width * 0.3,
+                  child: Column(
+                    children: [
+                      CommonWidget.bodyText('風速'),
+                      CommonWidget.bodyText(
+                          '${controller.ws[controller.itemIndex.value].elementValue[0].value} km/h'),
+                    ],
+                  ),
+                )
+              ],
+            )),
       ],
     );
   }
@@ -242,8 +243,8 @@ class HomeView extends GetView<HomeController> {
                     shrinkWrap: true,
                     itemCount: controller.weather.length,
                     itemBuilder: (context, index) {
-                      return reportItem(index,
-                          weather: controller.weather, T: controller.t);
+                      return Obx(() => reportItem(index,
+                          weather: controller.weather, T: controller.t));
                     }),
               ).paddingSymmetric(horizontal: 15)
             : Center(
@@ -259,62 +260,71 @@ class HomeView extends GetView<HomeController> {
 
   Widget reportItem(int index,
       {required List<CityTime> weather, required List<CityTime> T}) {
-    return Container(
-      width: 150,
-      decoration: BoxDecoration(
-        color: index == 0 ? selectColor : CardColor,
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black26,
-              offset: Offset(3.0, 3.0), //陰影y軸偏移量
-              blurRadius: 5, //陰影模糊程度
-              spreadRadius: 1 //陰影擴散程度
-              )
-        ],
-      ),
-      child: Column(
-        children: [
-          Text(
-            TimeTransform.transMD(weather[index].startTime),
-            style: TextStyle(
-              color: index == 0 ? Colors.black : cardTextColor,
-            ),
-          ).paddingSymmetric(vertical: 5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                  height: 50,
-                  width: 50,
-                  child: CommonWidget.imageAsset(
-                      weather[0].elementValue[1].value,
-                      color: Colors.black26,
-                      opacity: 0.5,
-                      dx: 0,
-                      dy: 2,
-                      sigma: 2)),
-              const SizedBox(width: 20),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    TimeTransform.transHM(weather[index].startTime),
-                    style: TextStyle(
-                      color: index == 0 ? Colors.black : cardTextColor,
-                    ),
-                  ).paddingOnly(bottom: 10),
-                  Text(
-                    '${T[index].elementValue[0].value} °C',
-                    style: TextStyle(
-                        color: index == 0 ? Colors.black : cardTextColor),
-                  )
-                ],
+    return GestureDetector(
+      onTap: () => controller.itemIndex.value = index,
+      child: Container(
+        width: 150,
+        decoration: BoxDecoration(
+          color: index == controller.itemIndex.value ? selectColor : CardColor,
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black26,
+                offset: Offset(3.0, 3.0), //陰影y軸偏移量
+                blurRadius: 5, //陰影模糊程度
+                spreadRadius: 1 //陰影擴散程度
+                )
+          ],
+        ),
+        child: Column(
+          children: [
+            Text(
+              TimeTransform.transMD(weather[index].startTime),
+              style: TextStyle(
+                color: index == controller.itemIndex.value
+                    ? Colors.black
+                    : cardTextColor,
               ),
-            ],
-          ),
-        ],
+            ).paddingSymmetric(vertical: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                    height: 50,
+                    width: 50,
+                    child: CommonWidget.imageAsset(
+                        weather[0].elementValue[1].value,
+                        color: Colors.black26,
+                        opacity: 0.5,
+                        dx: 0,
+                        dy: 2,
+                        sigma: 2)),
+                const SizedBox(width: 20),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      TimeTransform.transHM(weather[index].startTime),
+                      style: TextStyle(
+                        color: index == controller.itemIndex.value
+                            ? Colors.black
+                            : cardTextColor,
+                      ),
+                    ).paddingOnly(bottom: 10),
+                    Text(
+                      '${T[index].elementValue[0].value} °C',
+                      style: TextStyle(
+                          color: index == controller.itemIndex.value
+                              ? Colors.black
+                              : cardTextColor),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     ).paddingOnly(right: 20, bottom: 10);
   }

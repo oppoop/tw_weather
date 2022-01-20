@@ -13,6 +13,7 @@ class HomeController extends GetxController {
   final now = DateTime.now();
   final loadDataStatus = Rx<LoadDataStatus>(LoadDataStatus.loading);
 
+  final itemIndex = 0.obs;
   final city = Rx<String>('');
   final date = Rx<String>('');
   final element = RxList<CityLocations>();
@@ -68,7 +69,10 @@ class HomeController extends GetxController {
           weather.value = element.time;
           break;
         case 'PoP6h':
-          pop.value = element.time;
+          element.time.forEach((element) {
+            pop.add(element);
+            pop.add(element);
+          });
           break;
         case 'T':
           t.value = element.time;
