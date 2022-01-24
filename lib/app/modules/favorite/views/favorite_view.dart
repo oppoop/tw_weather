@@ -27,7 +27,7 @@ class FavoriteView extends GetView<FavoriteController> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CommonWidget.headText('我的收藏', fontSize: 30)
+                CommonWidget.headText('myFavorite'.tr, fontSize: 30)
                     .paddingOnly(left: 40, top: 40),
                 controller.loadDataStatus == LoadDataStatus.finished
                     ? Obx(() => GridView.builder(

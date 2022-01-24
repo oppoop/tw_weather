@@ -10,7 +10,6 @@ dependencies:
   dio: ^4.0.4
   decorated_icon: ^1.2.1
   simple_shadow: ^0.2.0
-  intl: ^0.17.0
   flutter_svg: ^1.0.0
   cupertino_icons: ^1.0.2
   provider: ^6.0.1
@@ -32,5 +31,4 @@ flutter:
   assets:
     - assets/animation/
     - assets/image/
-flutter_intl:
-  enabled: true
+

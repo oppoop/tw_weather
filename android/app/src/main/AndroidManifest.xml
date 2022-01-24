@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yanchen.tw_weather">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="tw_weather"
         android:icon="@mipmap/ic_launcher">

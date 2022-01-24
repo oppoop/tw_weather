@@ -22,7 +22,7 @@ class BottomNavBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconBottomBar(
-                  text: "Home",
+                  text: "home".tr,
                   icon: Icons.home,
                   selected: controller.currentIndex.value == IndexPage.Home
                       ? true
@@ -30,7 +30,7 @@ class BottomNavBar extends StatelessWidget {
                   onPressed: () =>
                       controller.currentIndex.value = IndexPage.Home),
               IconBottomBar(
-                  text: "Search",
+                  text: "search".tr,
                   icon: Icons.search_outlined,
                   selected: controller.currentIndex.value == IndexPage.Search
                       ? true
@@ -38,7 +38,7 @@ class BottomNavBar extends StatelessWidget {
                   onPressed: () =>
                       controller.currentIndex.value = IndexPage.Search),
               IconBottomBar(
-                  text: "Favorite",
+                  text: "favorite".tr,
                   icon: Icons.favorite_border,
                   selected: controller.currentIndex.value == IndexPage.Favorite
                       ? true
@@ -46,7 +46,7 @@ class BottomNavBar extends StatelessWidget {
                   onPressed: () =>
                       controller.currentIndex.value = IndexPage.Favorite),
               IconBottomBar(
-                  text: "Settings",
+                  text: "setting".tr,
                   icon: Icons.settings,
                   selected: controller.currentIndex.value == IndexPage.Setting
                       ? true
