@@ -88,7 +88,7 @@ class HomeView extends GetView<HomeController> {
   Widget mainCityWeather(HomeController controller) {
     return Column(
       children: [
-        CommonWidget.headText(controller.element[0].locationsName),
+        CommonWidget.headText(controller.element[0].locationsName.tr),
         const SizedBox(
           height: 5,
         ),
@@ -136,7 +136,7 @@ class HomeView extends GetView<HomeController> {
                   height: Get.width * 0.3,
                   child: Column(
                     children: [
-                      CommonWidget.bodyText('溫度'),
+                      CommonWidget.bodyText('temp'.tr),
                       CommonWidget.bodyText(
                           '${controller.t[controller.itemIndex.value].elementValue[0].value} °C'),
                     ],
@@ -147,7 +147,7 @@ class HomeView extends GetView<HomeController> {
                   height: Get.width * 0.3,
                   child: Column(
                     children: [
-                      CommonWidget.bodyText('降雨機率'),
+                      CommonWidget.bodyText('pop'.tr),
                       CommonWidget.bodyText(
                           '${controller.pop[controller.itemIndex.value].elementValue[0].value} %'),
                     ],
@@ -158,7 +158,7 @@ class HomeView extends GetView<HomeController> {
                   height: Get.width * 0.3,
                   child: Column(
                     children: [
-                      CommonWidget.bodyText('風速'),
+                      CommonWidget.bodyText('wind'.tr),
                       CommonWidget.bodyText(
                           '${controller.ws[controller.itemIndex.value].elementValue[0].value} km/h'),
                     ],
@@ -179,7 +179,7 @@ class HomeView extends GetView<HomeController> {
             Container(
               alignment: Alignment.centerLeft,
               width: Get.width * 0.5,
-              child: CommonWidget.headText('近3日', fontSize: 20)
+              child: CommonWidget.headText('threeDay'.tr, fontSize: 20)
                   .paddingOnly(left: 30),
             ),
             Container(
@@ -199,7 +199,7 @@ class HomeView extends GetView<HomeController> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      '查看未來一周',
+                      'weeksForecast'.tr,
                       style: TextStyle(
                         color: selectColor,
                         fontSize: 18,

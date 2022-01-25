@@ -85,7 +85,7 @@ class FavoriteView extends GetView<FavoriteController> {
           children: [
             CommonWidget.bodyText(data[0].time[0].parameter.parameterName,
                 fontSize: 15),
-            CommonWidget.headText(city, color: cardTextColor, fontSize: 20)
+            CommonWidget.headText(city.tr, color: cardTextColor, fontSize: 20)
           ],
         ),
       ],

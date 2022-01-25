@@ -28,14 +28,16 @@ class SearchView extends GetView<SearchController> {
                     const SizedBox(
                       height: 50,
                     ),
-                    Align(child: CommonWidget.headText('選擇地區', fontSize: 25)),
+                    Align(
+                        child: CommonWidget.headText('pickLocation'.tr,
+                            fontSize: 25)),
                     const SizedBox(
                       height: 5,
                     ),
                     Container(
                       width: Get.width * 0.7,
                       child: Text(
-                        '輸入縣市查詢簡易即時天氣資訊',
+                        'searchSub'.tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: kWhiteColor,
@@ -171,7 +173,7 @@ class SearchView extends GetView<SearchController> {
                   width: 120,
                   color: controller.itemIndex == 0 ? selectColor : CardColor,
                   widget: cardContext(
-                      city: controller.recommendCity[1].locationName,
+                      city: controller.recommendCity[1].locationName.tr,
                       data: controller.recommendCity[1].weatherElement)),
             ),
             const SizedBox(
@@ -190,7 +192,7 @@ class SearchView extends GetView<SearchController> {
                   width: 120,
                   color: controller.itemIndex == 1 ? selectColor : CardColor,
                   widget: cardContext(
-                      city: controller.recommendCity[2].locationName,
+                      city: controller.recommendCity[2].locationName.tr,
                       data: controller.recommendCity[2].weatherElement)),
             ),
           ],
@@ -239,7 +241,7 @@ class SearchView extends GetView<SearchController> {
                                   .time[0].parameter.parameterName,
                               fontSize: 20),
                           CommonWidget.headText(
-                              controller.recommendCity[0].locationName,
+                              controller.recommendCity[0].locationName.tr,
                               color: cardTextColor,
                               fontSize: 25)
                         ],
