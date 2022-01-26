@@ -10,6 +10,9 @@ class Messages extends Translations {
           'temp': '溫度',
           'pop': '降雨機率',
           'wind': '風速',
+          'at': '體感溫度',
+          'ci': '舒適指數',
+          'rh': '相對溼度',
           'threeDay': '近3日',
           'weeksForecast': '查看未來一周',
           //搜尋頁
@@ -54,6 +57,9 @@ class Messages extends Translations {
           'temp': 'Temperature',
           'pop': 'PoP',
           'wind': 'Wind',
+          'at': 'AT',
+          'ci': 'CI',
+          'rh': 'RH',
           'threeDay': 'Three Day',
           'weeksForecast': 'Weeks Forecast',
           //搜尋頁
