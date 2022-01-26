@@ -66,8 +66,10 @@ class FavoriteController extends GetxController {
                 onTap: () {
                   box.write('HomeCity', city);
                   ShowDialog.dialogSuccess(context, text: '釘選成功');
-                  Future.delayed(Duration(milliseconds: 500))
-                      .then((value) => Get.back());
+                  Future.delayed(Duration(milliseconds: 500)).then((value) {
+                    Get.back();
+                    Get.back();
+                  });
                 },
                 child: Column(
                   children: [
@@ -98,8 +100,10 @@ class FavoriteController extends GetxController {
                       .removeWhere((element) => element.locationName == city);
                   box.write('favorite', favoriteList);
                   ShowDialog.dialogSuccess(context, text: '取消收藏');
-                  Future.delayed(Duration(milliseconds: 500))
-                      .then((value) => Get.back());
+                  Future.delayed(Duration(milliseconds: 500)).then((value) {
+                    Get.back();
+                    Get.back();
+                  });
                 },
                 child: Column(
                   children: [
