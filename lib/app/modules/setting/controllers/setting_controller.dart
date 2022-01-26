@@ -2,9 +2,15 @@ import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingController extends GetxController {
   //TODO: Implement SettingController
+  final PackageInfo packageInfo;
+
+  SettingController({
+    required this.packageInfo,
+  });
 
   final box = GetStorage();
   final locale = ''.obs;

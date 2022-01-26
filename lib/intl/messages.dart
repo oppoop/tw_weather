@@ -23,7 +23,7 @@ class Messages extends Translations {
           'setting': '設定',
           'themeChange': '主題切換',
           'languageChange': '語系切換',
-          'about': '關於',
+          'version': '版本號',
           //城市
           '桃園市': '桃園市',
           '宜蘭縣': '宜蘭縣',
@@ -68,7 +68,7 @@ class Messages extends Translations {
           'setting': 'Setting',
           'themeChange': 'Theme Change',
           'languageChange': 'Language Change',
-          'about': 'About',
+          'version': 'Version',
           //城市
           '桃園市': 'TaoYuan',
           '宜蘭縣': 'YiLan',
