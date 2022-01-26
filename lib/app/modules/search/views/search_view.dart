@@ -91,7 +91,7 @@ class SearchView extends GetView<SearchController> {
         Container(
           alignment: Alignment.center,
           height: 65,
-          width: Get.width * 0.6,
+          width: Get.width * 0.5,
           decoration: BoxDecoration(
             color: CardColor,
             borderRadius: controller.citySearch.length == 0
@@ -147,6 +147,20 @@ class SearchView extends GetView<SearchController> {
                 color: CardColor,
                 widget: Icon(
                   Icons.search,
+                  color: cardTextColor,
+                ),
+                radius: 20)),
+        const SizedBox(
+          width: 10,
+        ),
+        GestureDetector(
+            onTap: () => controller.getLocation(context),
+            child: CommonWidget.cardWidget(
+                height: 65,
+                width: Get.width * 0.15,
+                color: CardColor,
+                widget: Icon(
+                  Icons.location_on,
                   color: cardTextColor,
                 ),
                 radius: 20)),
@@ -287,7 +301,7 @@ class SearchView extends GetView<SearchController> {
         Container(
             alignment: Alignment.center,
             height: 60 * (controller.citySearch.length.toDouble()),
-            width: Get.width * 0.6,
+            width: Get.width * 0.5,
             decoration: BoxDecoration(
               color: CardColor,
               borderRadius: BorderRadius.only(
@@ -319,11 +333,17 @@ class SearchView extends GetView<SearchController> {
                             controller.citySearch[index]));
                   }),
             )),
+        //對齊用
         const SizedBox(
           width: 20,
         ),
         SizedBox(
-          height: 65,
+          width: Get.width * 0.15,
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        SizedBox(
           width: Get.width * 0.15,
         ),
       ],
