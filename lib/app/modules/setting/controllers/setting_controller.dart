@@ -17,7 +17,7 @@ class SettingController extends GetxController {
 
   @override
   void onInit() {
-    locale.value = box.read('locale');
+    locale.value = box.read('locale') ?? '繁體中文';
     super.onInit();
   }
 
