@@ -31,7 +31,7 @@ class HomeView extends GetView<HomeController> {
             height: 30,
           ),
           controller.loadDataStatus.value == LoadDataStatus.finished
-              ? mainCityWeather(controller)
+              ? mainCityWeather(controller).paddingOnly(bottom: 20)
               : JsonAnimation.loadAnimation(height: 200, width: 200)
                   .paddingSymmetric(vertical: 50),
           todayReport(controller)
@@ -130,10 +130,11 @@ class HomeView extends GetView<HomeController> {
         ),
         Obx(() => Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   width: Get.width * 0.3,
-                  height: Get.width * 0.3,
+                  height: Get.width * 0.17,
                   child: Column(
                     children: [
                       CommonWidget.bodyText('temp'.tr),
@@ -144,7 +145,7 @@ class HomeView extends GetView<HomeController> {
                 ),
                 Container(
                   width: Get.width * 0.3,
-                  height: Get.width * 0.3,
+                  height: Get.width * 0.17,
                   child: Column(
                     children: [
                       CommonWidget.bodyText('pop'.tr),
@@ -155,7 +156,7 @@ class HomeView extends GetView<HomeController> {
                 ),
                 Container(
                   width: Get.width * 0.3,
-                  height: Get.width * 0.3,
+                  height: Get.width * 0.17,
                   child: Column(
                     children: [
                       CommonWidget.bodyText('wind'.tr),
@@ -166,6 +167,64 @@ class HomeView extends GetView<HomeController> {
                 )
               ],
             )),
+        Obx(() => Visibility(
+            visible: controller.detailOpen.value,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  width: Get.width * 0.3,
+                  height: Get.width * 0.17,
+                  child: Column(
+                    children: [
+                      CommonWidget.bodyText('at'.tr),
+                      CommonWidget.bodyText(
+                              '${controller.at[controller.itemIndex.value].elementValue[0].value} °C')
+                          .paddingOnly(top: 3),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: Get.width * 0.3,
+                  height: Get.width * 0.17,
+                  child: Column(
+                    children: [
+                      CommonWidget.bodyText('ci'.tr),
+                      CommonWidget.bodyText(
+                          '${controller.ci[controller.itemIndex.value].elementValue[1].value}'),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: Get.width * 0.3,
+                  height: Get.width * 0.17,
+                  child: Column(
+                    children: [
+                      CommonWidget.bodyText('rh'.tr),
+                      CommonWidget.bodyText(
+                              '${controller.rh[controller.itemIndex.value].elementValue[0].value} %')
+                          .paddingOnly(top: 3),
+                    ],
+                  ),
+                )
+              ],
+            ).paddingOnly(top: 20))),
+        Obx(
+          () => GestureDetector(
+              onTap: () =>
+                  controller.detailOpen.value = !controller.detailOpen.value,
+              child: controller.detailOpen.value
+                  ? Icon(
+                      Icons.arrow_drop_up_sharp,
+                      color: kWhiteColor,
+                      size: 40,
+                    )
+                  : Icon(
+                      Icons.arrow_drop_down,
+                      color: kWhiteColor,
+                      size: 40,
+                    )),
+        )
       ],
     );
   }

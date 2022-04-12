@@ -10,7 +10,7 @@ class SettingView extends GetView<SettingController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SettingController>(
-        init: SettingController(),
+        init: SettingController(packageInfo: Get.find()),
         builder: (controller) {
           return Stack(
             children: [
@@ -57,11 +57,11 @@ class SettingView extends GetView<SettingController> {
                           topLeft: Radius.circular(30))),
                   child: Column(
                     children: [
-                      ListTile(
+                      /*ListTile(
                         title: CommonWidget.headText('themeChange'.tr,
                             fontSize: 20),
                         trailing: Switch(value: true, onChanged: (value) {}),
-                      ),
+                      ),*/
                       Obx(
                         () => ListTile(
                           title: CommonWidget.headText('languageChange'.tr,
@@ -84,20 +84,11 @@ class SettingView extends GetView<SettingController> {
                         ).paddingOnly(right: 10),
                       ),
                       ListTile(
-                        title: CommonWidget.headText('about'.tr, fontSize: 20),
-                        trailing: DecoratedIcon(
-                          Icons.arrow_forward_ios,
-                          color: kWhiteColor,
-                          size: 20,
-                          shadows: [
-                            BoxShadow(
-                                color: Colors.black26,
-                                offset: Offset(3.0, 3.0), //陰影y軸偏移量
-                                blurRadius: 5, //陰影模糊程度
-                                spreadRadius: 1 //陰影擴散程度
-                                )
-                          ],
-                        ).paddingOnly(right: 10),
+                        title:
+                            CommonWidget.headText('version'.tr, fontSize: 20),
+                        trailing: CommonWidget.bodyText(
+                                '${controller.packageInfo.version} + ${controller.packageInfo.buildNumber}')
+                            .paddingOnly(right: 10),
                       ),
                     ],
                   ).paddingSymmetric(vertical: 20, horizontal: 10),

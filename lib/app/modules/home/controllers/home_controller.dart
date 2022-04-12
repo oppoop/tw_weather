@@ -13,6 +13,7 @@ class HomeController extends GetxController {
   final now = DateTime.now();
   final loadDataStatus = Rx<LoadDataStatus>(LoadDataStatus.loading);
 
+  final detailOpen = false.obs;
   final itemIndex = 0.obs;
   final city = Rx<String>('');
   final date = Rx<String>('');
@@ -25,6 +26,8 @@ class HomeController extends GetxController {
   final pop = RxList<CityTime>();
   final t = RxList<CityTime>();
   final ws = RxList<CityTime>();
+  final at = RxList<CityTime>();
+  final rh = RxList<CityTime>();
 
   @override
   void onInit() {
@@ -82,6 +85,12 @@ class HomeController extends GetxController {
           break;
         case 'WS':
           ws.value = element.time;
+          break;
+        case 'AT':
+          at.value = element.time;
+          break;
+        case 'RH':
+          rh.value = element.time;
           break;
       }
     });

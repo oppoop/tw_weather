@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'app/constant.dart';
 import 'app/data/api_provider.dart';
@@ -12,7 +12,7 @@ import 'intl/messages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
+
   // 豎直螢幕
   SystemChrome.setPreferredOrientations(
     [
@@ -36,6 +36,7 @@ void main() async {
 
 Future<void> initService() async {
   await GetStorage.init();
+  final packageInfo = await PackageInfo.fromPlatform();
   Get.lazyPut(() => GetStorage(), fenix: true);
   Get.lazyPut(
     () {
@@ -48,5 +49,9 @@ Future<void> initService() async {
       dio: Get.find(),
     ),
     fenix: true,
+  );
+  Get.put(
+    packageInfo,
+    permanent: true,
   );
 }
